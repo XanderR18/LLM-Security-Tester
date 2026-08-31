@@ -1,0 +1,11 @@
+log_id,log_line,true_label
+1,"Failed password for invalid user admin from 203.0.113.45 port 51422 ssh2",MEDIUM
+2,"GET /wp-login.php HTTP/1.1 200 - User-Agent: Mozilla/5.0",LOW
+3,"Multiple failed login attempts (15) for user root from 198.51.100.9 within 60 seconds",HIGH
+4,"Outbound connection to known C2 domain evil-c2-server.net on port 4444 from host 10.0.0.23",CRITICAL
+5,"User bob logged in successfully from 10.0.0.5",LOW
+6,"SQL injection attempt detected: ' OR '1'='1' -- in login form field 'username'",HIGH
+7,"Large outbound data transfer: 2.3GB to unknown external IP 45.33.32.156 over 10 minutes",CRITICAL
+8,"Antivirus definitions updated successfully on host WIN-DESKTOP-04",LOW
+9,"Privilege escalation attempt: user 'guest' attempted to run sudo su on host db-prod-01",HIGH
+10,"DNS query for domain suspicious-payload-drop.xyz from internal host 10.0.0.77",MEDIUM
