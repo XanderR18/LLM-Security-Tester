@@ -1,2 +1,3 @@
 anthropic>=0.40.0
 python-dotenv
+pandas>=2.0.0

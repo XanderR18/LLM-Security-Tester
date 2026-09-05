@@ -33,24 +33,36 @@ alongside the ground-truth label.
   works end-to-end before wiring up a real dataset
 - `requirements.txt` — just the `anthropic` SDK
 
-## Next: get a real dataset
-
-The plan calls for CICIDS2017 or NSL-KDD. Both are hosted in places outside
-what I can fetch directly from this environment, so grab one yourself:
-
-- **NSL-KDD** (simpler, good starting point): search "NSL-KDD Kaggle" or
-  grab it from the University of New Brunswick's CIC site.
-- **CICIDS2017** (larger, more realistic, has raw-ish log/flow data):
-  also on the CIC site.
-
-Once downloaded, you'll need a small script to convert whichever dataset
-you pick into the same `log_id,log_line,true_label` CSV shape used by
-`data/sample_logs.csv` — that's the next thing to build once you've picked
-one and looked at its actual columns. NSL-KDD is flow-record style (numeric
-features), so it needs a bit of templating into readable "log line" text;
-CICIDS2017 has some fields (source/dest IP, protocol, etc.) that map more
-naturally into a log-line sentence. Happy to help write that conversion
-script once you've downloaded one and can share a few sample rows.
+## Dataset: CICIDS2017
+ 
+We're using CICIDS2017 (not NSL-KDD). Download it from the Kaggle mirror
+(easier than UNB's gated form): https://www.kaggle.com/datasets/cicdataset/cicids2017
+ 
+It comes as 8 CSVs, one per day/time-window (Monday–Friday, some days split
+into morning/afternoon). Each row is a network *flow* (packet counts, byte
+counts, duration, etc.) — there's no free-text field like a User-Agent or
+filename, which is normally where an attacker would sneak injected text
+into a real system.
+ 
+**Workaround (documented for the Phase 5 report):** `prep_dataset.py`
+converts each numeric row into a synthetic log line, e.g.:
+ 
+> Connection from 192.168.1.5 to 10.0.0.9, protocol TCP, duration 4.20s,
+> 12 fwd packets, flagged as PortScan.
+ 
+...and appends one extra free-text `notes_field` (currently a bland
+placeholder). **That field is the injection point for Phase 3** — the
+attack harness will overwrite it per test case instead of touching the
+synthesized log line itself.
+ 
+### Running it
+ 
+```bash
+python prep_dataset.py --input data/CICIDS2017/data/CICIDS2017/GeneratedLabelledFlows/*.csv --output results/cicids_combined.csv --sample 500
+```
+ 
+- `--sample N` caps the output to N rows (CICIDS2017 has ~2.8M rows total — you don't want to send all of that to an LLM one-by-one)
+- Handles both CICIDS2017 CSV variants: some releases include Source/Destination IP columns, the anonymized "MachineLearningCVE" release doesn't. The script falls back to synthetic placeholder IPs when they're missing and prints a warning when it does.
 
 ## How this fits the bigger project
 
