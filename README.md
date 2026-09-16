@@ -30,12 +30,12 @@ Why this is strong: it’s not “does this technique work in theory”. it’s 
 ## How to manually set up the project
 *Note para Xander: Can I write a bash script to set up the environment?
 ### 0. Set up a .venv (Optional)
-```shell
+```bash
 python -m venv .venv
 ```
 
 ### 1. Install dependencies
-```shell
+```bash
 pip install -r requirements.txt
 ```
 
@@ -48,12 +48,14 @@ pip install -r requirements.txt
 ### 3. Prep dataset
 *Note for Xander: Consider shortening this path. Gawd Damn
 Prepare data set by adding synthetic log lines using (Sample of 500 rows):
-```shell
+```bash
 python src/prep_dataset.py --input data/CICIDS2017/GeneratedLabelledFlows/TrafficLabelling/*.csv --output data/prepped/cicids_prepped.csv --sample 500
 ```
 
 ### 4. Run attack harness
 Run attack harness using the following command:
-```shell
+```bash
 python src/attack_harness.py --input data/prepped/cicids_prepped.csv --output results/phase3_results.csv --attack-sample 2 --benign-sample 1
 ```
+
+This should out put a result file to the `results/` directory
