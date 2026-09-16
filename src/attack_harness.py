@@ -12,7 +12,6 @@ this harness is testing the real target system, not a re-implementation
 of it.
 
 Usage:
-    export ANTHROPIC_API_KEY=sk-ant-...
     python attack_harness.py --input data/cicids_prepped.csv --output results/phase3_results.csv
 """
 

@@ -51,10 +51,10 @@ those columns aren't present, and prints a warning when it does.
 
 USAGE
 -----
-    python prep_dataset.py --input data/CICIDS2017/GeneratedLabelledFlows/Friday-WorkingHours-Afternoon-PortScan.pcap_ISCX.csv --output results/cicids_portscan.csv --sample 200
+    python src/prep_dataset.py --input data/CICIDS2017/GeneratedLabelledFlows/Friday-WorkingHours-Afternoon-PortScan.pcap_ISCX.csv --output results/cicids_portscan.csv --sample 200
 
     # Combine multiple days/files, capping total rows:
-    python prep_dataset.py --input data/CICIDS2017//GeneratedLabelledFlows/*.csv --output results/cicids_combined.csv --sample 500
+    python src/prep_dataset.py --input data/CICIDS2017//GeneratedLabelledFlows/*.csv --output results/cicids_combined.csv --sample 500
 """
 
 import argparse
@@ -152,6 +152,13 @@ def run(input_patterns, output_path, sample, seed):
         print(f"Random sample: {len(combined)} rows.")
 
     combined = combined.sample(frac=1, random_state=seed).reset_index(drop=True)  # shuffle
+
+    combined["_label"] = (
+        combined["_label"]
+        .fillna("BENIGN")
+        .astype(str)
+        .str.strip()
+    )
 
     output_file = Path(output_path)
     output_file.parent.mkdir(parents=True, exist_ok=True)
