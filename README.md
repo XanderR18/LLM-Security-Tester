@@ -1,4 +1,4 @@
-# LLM-Security-Tester
+# TrierGuard
 A testing framework for LLM-based security tools.
 ## Core Idea
 As agencies plug LLMs into SOC workflows (triage, log summarization, alert classification), those LLMs read attacker-controlled data (logs, alert text, network payloads.) That means an attacker who can shape their own traffic can potentially inject instructions into what the LLM reads. I don’t think there’s a solid, public framework for systematically testing this yet.
@@ -28,7 +28,7 @@ Why this is strong: it’s not “does this technique work in theory”. it’s 
 - [ ] 12. Write a report: problem, threat model, methodology, results with real numbers, limitations, recommended defenses — this is the portfolio piece
 
 ## How to manually set up the project
-*Note para Xander: Can I write a bash script to set up the environment?
+*Note for Xander: Can I write a bash script to set up the environment?
 ### 0. Set up a .venv (Optional)
 ```bash
 python -m venv .venv
